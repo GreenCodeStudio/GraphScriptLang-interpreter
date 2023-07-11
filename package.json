@@ -1,0 +1,15 @@
+{
+  "name": "@graph-script-lang/interpreter",
+  "version": "0.1.0",
+  "main": "index.js",
+  "author": "GreenCodeStudio",
+  "license": "MIT",
+  "scripts": {
+    "build": "webpack --mode production",
+    "dev": "webpack --mode development --watch"
+  },
+  "dependencies": {
+    "@graph-script-lang/core": "file:../core",
+    "@graph-script-lang/stdlib": "file:../stdlib"
+  }
+}

@@ -1,0 +1,44 @@
+Arguments: 
+  C:\Program Files\nodejs\node.exe C:\Program Files\nodejs\node_modules\yarn\bin\yarn.js
+
+PATH: 
+  C:\Program Files\Microsoft\jdk-11.0.19.7-hotspot\bin;C:\Program Files\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\Common Files\Oracle\Java\javapath;C:\Program Files (x86)\NVIDIA Corporation\PhysX\Common;C:\Windows\system32;C:\Windows;C:\Windows\System32\Wbem;C:\Windows\System32\WindowsPowerShell\v1.0\;C:\Windows\System32\OpenSSH\;C:\Users\matri\AppData\Roaming\nvm;C:\Program Files\nodejs;C:\ProgramData\ComposerSetup\bin;C:\Program Files\Redis\;C:\Program Files\Java\jdk-11\bin;C:\Program Files\Java\jdk1.8.0_361\jre\bin;C:\Program Files\Microsoft SQL Server\Client SDK\ODBC\170\Tools\Binn\;C:\Program Files (x86)\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\Tools\Binn\;C:\Program Files\Microsoft SQL Server\150\DTS\Binn\;C:\Program Files (x86)\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\Azure Data Studio\bin;C:\Program Files\NVIDIA Corporation\NVIDIA NvDLISR;C:\Program Files (x86)\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\Tools\Binn\;C:\Program Files\Microsoft SQL Server\160\DTS\Binn\;C:\Program Files\dotnet\;C:\Program Files\TortoiseSVN\bin;C:\Program Files\Git\cmd;C:\Program Files\MySQL\MySQL Shell 8.0\bin\;C:\Users\matri\AppData\Local\Microsoft\WindowsApps;C:\Users\matri\AppData\Local\JetBrains\Toolbox\scripts;C:\Program Files\php8.1;C:\Users\matri\AppData\Roaming\Composer\vendor\bin;C:\Users\matri\.gradle\wrapper\dists\gradle-7.1.1-all\1wqbeia0d49252rmlcr6o8lbl\gradle-7.1.1\bin;C:\Users\matri\AppData\Local\Android\Sdk\platform-tools;C:\Users\matri\AppData\Local\Android\Sdk\build-tools\33.0.1;C:\Program Files\Java\jre1.8.0_361\bin;C:\Users\matri\.dotnet\tools;C:\other\Documents\GitHub\three.js\GraphScriptLang\editor\node_modules\.bin
+
+Yarn version: 
+  1.22.19
+
+Node version: 
+  16.19.0
+
+Platform: 
+  win32 x64
+
+Trace: 
+  SyntaxError: C:\other\Documents\GitHub\three.js\GraphScriptLang\interpreter\package.json: Unexpected token } in JSON at position 320
+      at JSON.parse (<anonymous>)
+      at C:\Users\matri\AppData\Roaming\nvm\v16.19.0\node_modules\yarn\lib\cli.js:1629:59
+      at Generator.next (<anonymous>)
+      at step (C:\Users\matri\AppData\Roaming\nvm\v16.19.0\node_modules\yarn\lib\cli.js:310:30)
+      at C:\Users\matri\AppData\Roaming\nvm\v16.19.0\node_modules\yarn\lib\cli.js:321:13
+
+npm manifest: 
+  {
+    "name": "@graph-script-lang/interpreter",
+    "version": "0.1.0",
+    "main": "index.js",
+    "author": "GreenCodeStudio",
+    "license": "MIT",
+    "scripts": {
+      "build": "webpack --mode production",
+      "dev": "webpack --mode development --watch"
+    },
+    "dependencies": {
+      "@graph-script-lang/core": "file:../core",
+    }
+  }
+
+yarn manifest: 
+  No manifest
+
+Lockfile: 
+  No lockfile
