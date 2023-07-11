@@ -22,13 +22,24 @@ export class RuntimeState {
         }
         this.stack.push(new FunctionRunner(this, fun));
     }
-    step(){
-        if(this.stack.length===0){
+
+    step() {
+        if (this.stack.length === 0) {
             return false;
         }
-        const runner=this.stack[this.stack.length-1];
-        if(runner.step()){
+        const runner = this.stack[this.stack.length - 1];
+        if (runner.step()) {
             this.stack.pop();
         }
+    }
+
+    run() {
+        while (this.stack.length) {
+            const runner = this.stack[this.stack.length - 1];
+            if (runner.step()) {
+                this.stack.pop();
+            }
+        }
+
     }
 }
