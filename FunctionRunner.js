@@ -3,31 +3,38 @@ import {FunctionCall} from "@graph-script-lang/core/Graphs/FunctionCall";
 import {If} from "@graph-script-lang/core/Graphs/If";
 import {NativeFunction} from "@graph-script-lang/core/NativeFunction";
 import {ConstantValue} from "@graph-script-lang/core/Graphs/ConstantValue";
+import {GraphFunction} from "@graph-script-lang/core/GraphFunction";
 
 export class FunctionRunner {
     constructor(state, fun) {
         this.state = state;
         this.functionResponses = {};
         this.fun = fun;
-        this.currentNode = fun.elements.find(x => x instanceof Input);
+        this.currentNode = fun.elements.find(x => x.constructor.name == 'Input');
     }
 
     step() {
         if (this.currentNode instanceof FunctionCall) {
-            this.functionResponses[this.currentNode.id] = this.executeFunction(this.currentNode)
+            if (this.currentNode.fun instanceof NativeFunction) {
+                const inputs = this.calculateInputs(this.currentNode);
+                this.functionResponses[this.currentNode.id] = this.currentNode.fun.execute(inputs);
+            } else if (this.currentNode.fun instanceof GraphFunction) {
+                this.state.stack.push(new FunctionRunner(this.state, this.currentNode.fun, r => this.functionResponses[this.currentNode.id] = r));
+                return null;
+            }
 
-        }else if (this.currentNode instanceof If) {
+        } else if (this.currentNode instanceof If) {
             const inputs = this.calculateInputs(this.currentNode);
             let connection;
-            if(inputs['condition']) {
+            if (inputs['condition']) {
                 connection = this.fun.connections.find(x => x.from[0] == this.currentNode.id && x.from[1] == 'true')
-            }else{
+            } else {
                 connection = this.fun.connections.find(x => x.from[0] == this.currentNode.id && x.from[1] == 'false')
             }
             if (connection) {
                 this.currentNode = this.fun.elements.find(x => x.id === connection.to[0]);
                 return
-            }else{
+            } else {
                 return {}
             }
         }
@@ -40,10 +47,8 @@ export class FunctionRunner {
     }
 
     executeFunction(node) {
-        if (node.fun instanceof NativeFunction) {
-            const inputs = this.calculateInputs(node);
-            return node.fun.execute(inputs);
-        }
+        console.log('executeFunction')
+
     }
 
     calculateInputs(node) {
