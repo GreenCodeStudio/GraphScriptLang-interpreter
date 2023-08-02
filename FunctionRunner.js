@@ -6,11 +6,12 @@ import {ConstantValue} from "@graph-script-lang/core/Graphs/ConstantValue";
 import {GraphFunction} from "@graph-script-lang/core/GraphFunction";
 
 export class FunctionRunner {
-    constructor(state, fun) {
+    constructor(state, fun, exitCallback = null) {
         this.state = state;
         this.functionResponses = {};
         this.fun = fun;
         this.currentNode = fun.elements.find(x => x.constructor.name == 'Input');
+        this.exitCallback = exitCallback;
     }
 
     step() {
@@ -18,9 +19,11 @@ export class FunctionRunner {
             if (this.currentNode.fun instanceof NativeFunction) {
                 const inputs = this.calculateInputs(this.currentNode);
                 this.functionResponses[this.currentNode.id] = this.currentNode.fun.execute(inputs);
+
+                this.goNextNode()
             } else if (this.currentNode.fun instanceof GraphFunction) {
                 this.state.stack.push(new FunctionRunner(this.state, this.currentNode.fun, r => this.functionResponses[this.currentNode.id] = r));
-                return null;
+
             }
 
         } else if (this.currentNode instanceof If) {
@@ -33,16 +36,21 @@ export class FunctionRunner {
             }
             if (connection) {
                 this.currentNode = this.fun.elements.find(x => x.id === connection.to[0]);
-                return
+
             } else {
-                return {}
+                this.state.stackPop()
             }
         }
+        else{
+            this.goNextNode()
+        }
+    }
+    goNextNode(){
         const connection = this.fun.connections.find(x => x.from[0] == this.currentNode.id && x.from[1] == '__exit')
         if (connection) {
             this.currentNode = this.fun.elements.find(x => x.id === connection.to[0]);
         } else {
-            return {}
+            this.state.stackPop()
         }
     }
 

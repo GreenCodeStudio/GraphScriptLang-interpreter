@@ -20,7 +20,7 @@ export class RuntimeState {
         if (this.stack.length > 0) {
             throw new Error('Stack is not empty')
         }
-        this.stack.push(new FunctionRunner(this, fun));
+        this.stack.push(new FunctionRunner(this, fun, ()=>console.log('debug completed')));
     }
 
     step() {
@@ -28,17 +28,21 @@ export class RuntimeState {
             return false;
         }
         const runner = this.stack[this.stack.length - 1];
-        if (runner.step()) {
-            this.stack.pop();
-        }
+        runner.step()
     }
 
     run() {
         while (this.stack.length) {
             const runner = this.stack[this.stack.length - 1];
-            if (runner.step()) {
-                this.stack.pop();
-            }
+            runner.step()
+        }
+
+    }
+    stackPop(){
+        this.stack.pop();
+        const runner = this.stack[this.stack.length - 1];
+        if(runner){
+            runner.goNextNode();
         }
 
     }
